@@ -1,4 +1,4 @@
-package com.paolo_manlunas.twitterclone
+package com.paolo_manlunas.twitterclone.activities
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
+import com.paolo_manlunas.twitterclone.R
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,7 +21,11 @@ class HomeActivity : AppCompatActivity() {
    // Logout
    fun onLogout(view: View) {
       firebaseAuth.signOut()
-      startActivity(LoginActivity.newIntent(this))
+      startActivity(
+         LoginActivity.newIntent(
+            this
+         )
+      )
       finish()
    }
 

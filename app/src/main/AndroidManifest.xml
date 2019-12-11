@@ -10,17 +10,17 @@
        android:roundIcon="@drawable/logo"
        android:supportsRtl="true"
        android:theme="@style/AppTheme">
-      <activity android:name=".SignupActivity"
+      <activity android:name=".activities.SignupActivity"
           android:screenOrientation="portrait"
           android:theme="@style/AppTheme.NoActionBar"
           android:windowSoftInputMode="adjustResize" ></activity>
       <activity
-          android:name=".HomeActivity"
+          android:name=".activities.HomeActivity"
           android:screenOrientation="portrait"
           android:theme="@style/AppTheme.NoActionBar"
           android:windowSoftInputMode="adjustResize" />
       <activity
-          android:name=".LoginActivity"
+          android:name=".activities.LoginActivity"
           android:screenOrientation="portrait"
           android:theme="@style/AppTheme.NoActionBar"
           android:windowSoftInputMode="adjustResize">
