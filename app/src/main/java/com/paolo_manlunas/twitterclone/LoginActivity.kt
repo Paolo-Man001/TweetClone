@@ -1,5 +1,7 @@
 package com.paolo_manlunas.twitterclone
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -120,4 +122,9 @@ class LoginActivity : AppCompatActivity() {
       firebaseAuth.removeAuthStateListener(firebaseAuthListener)
    }
 
+
+   // Intent
+   companion object {
+      fun newIntent(context: Context) = Intent(context, LoginActivity::class.java)
+   }
 }
