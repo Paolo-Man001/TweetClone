@@ -1,3 +1,9 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="paman" />
+  <dictionary name="paman">
+    <words>
+      <w>firebase</w>
+      <w>firestore</w>
+      <w>multidex</w>
+    </words>
+  </dictionary>
 </component>
