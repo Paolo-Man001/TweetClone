@@ -11,9 +11,14 @@ import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.paolo_manlunas.twitterclone.util.DATA_USERS
+import com.paolo_manlunas.twitterclone.util.User
+import kotlinx.android.synthetic.main.activity_signup.*
 
-class LoginActivity : AppCompatActivity() {
+class SignupActivity : AppCompatActivity() {
+
+   private val firebaseDB = FirebaseFirestore.getInstance()
 
    private val firebaseAuth = FirebaseAuth.getInstance()
 
@@ -26,16 +31,13 @@ class LoginActivity : AppCompatActivity() {
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
-      setContentView(R.layout.activity_login)
+      setContentView(R.layout.activity_signup)
 
+      setTextChangeListener(usernameET, usernameTIL)
       setTextChangeListener(emailET, emailTIL)
       setTextChangeListener(passwordET, passwordTIL)
 
-      /* Progress layout must intercept all touches in the layout
-      *  so user will only be able to click on the login button only
-      *  ONCE while login() is processing authorisation.
-      * */
-      loginProgressLayout.setOnTouchListener { v, event -> true }
+      signupProgressLayout.setOnTouchListener { v, event -> true }
    }
 
 
@@ -52,13 +54,20 @@ class LoginActivity : AppCompatActivity() {
          override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             til.isErrorEnabled = false
          }
-
       })
    }
 
-   // On-Login
-   fun onLogin(view: View) {
+
+   // Signup
+   fun onSignup(view: View) {
       var proceed = true
+
+      // Username Check
+      if (usernameET.text.isNullOrEmpty()) {
+         usernameTIL.error = "Username is required"
+         usernameTIL.isErrorEnabled = true
+         proceed = false
+      }
 
       // Email Check
       if (emailET.text.isNullOrEmpty()) {
@@ -74,49 +83,59 @@ class LoginActivity : AppCompatActivity() {
          proceed = false
       }
 
-      // if Login proceeds
+      // if Signup proceeds
       if (proceed) {
          // show progressbar
-         loginProgressLayout.visibility = View.VISIBLE
+         signupProgressLayout.visibility = View.VISIBLE
 
-         // login with Firebase Auth
-         firebaseAuth.signInWithEmailAndPassword(
+         // Signup with Firebase Auth
+         firebaseAuth.createUserWithEmailAndPassword(
             emailET.text.toString(),
             passwordET.text.toString()
          )
             .addOnCompleteListener {
                if (!it.isSuccessful) {
-                  loginProgressLayout.visibility = View.GONE
                   Toast.makeText(
-                     this@LoginActivity,
-                     "Login Error: ${it.exception?.localizedMessage}",
+                     this@SignupActivity,
+                     "Signup Error: ${it.exception?.localizedMessage}",
                      Toast.LENGTH_LONG
                   ).show()
+               } else {
+                  /* Create User in FirebaseDB */
+                  val email = emailET.text.toString()
+                  val username = usernameET.text.toString()
+
+                  // User data class Object (from util)
+                  val user = User(email, username, "", arrayListOf(), arrayListOf())
+
+                  /* Add 'user' Object to DB:
+                  *  firebaseAuth.uid!! connects the the Auth user and corresponding DB with UID.
+                  * */
+                  firebaseDB.collection(DATA_USERS).document(firebaseAuth.uid!!).set(user)
                }
+               signupProgressLayout.visibility = View.GONE
             }
             .addOnFailureListener {
                it.printStackTrace()
-               loginProgressLayout.visibility = View.GONE
+               signupProgressLayout.visibility = View.GONE
             }
       }
    }
 
-   // Go-to-Signup
-   fun goToSignup(view: View) {
-      startActivity(SignupActivity.newIntent(this))
+   // Go-to-Login
+   fun goToLogin(view: View) {
+      startActivity(LoginActivity.newIntent(this))
       finish()
    }
 
 
-   //--- Override METHODS:
-
-   /* when LoginActivity starts up, we have to attach this to FirebaseAuth instance
-   *  to check if user is already logged-in.
+   /* when SignupActivity starts up, we have to attach this to FirebaseAuth
+   *  to check if user is already signUp.
    * */
    override fun onStart() {
       super.onStart()
 
-      // pass the firebaseAuthListener to see if user is still logged-in
+      // pass the firebaseAuthListener to see if user is an existing user
       firebaseAuth.addAuthStateListener(firebaseAuthListener)
    }
 
@@ -126,9 +145,9 @@ class LoginActivity : AppCompatActivity() {
       firebaseAuth.removeAuthStateListener(firebaseAuthListener)
    }
 
-
    //--- Intent
    companion object {
-      fun newIntent(context: Context) = Intent(context, LoginActivity::class.java)
+      fun newIntent(context: Context) = Intent(context, SignupActivity::class.java)
    }
+
 }

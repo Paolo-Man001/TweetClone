@@ -25,7 +25,7 @@ class HomeActivity : AppCompatActivity() {
    }
 
 
-   // Intent
+   //--- Intent
    companion object {
       fun newIntent(context: Context) = Intent(context, HomeActivity::class.java)
    }
