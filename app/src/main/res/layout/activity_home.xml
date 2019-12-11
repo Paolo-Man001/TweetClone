@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activities.HomeActivity">
 
+   <!-- Search Bar -->
    <androidx.cardview.widget.CardView
+       android:id="@+id/cardView"
        android:layout_width="0dp"
        android:layout_height="wrap_content"
        android:background="@color/design_default_color_primary"
@@ -65,6 +67,67 @@
       </androidx.cardview.widget.CardView>
    </androidx.cardview.widget.CardView>
 
+   <!-- Bottom-Tab Menu -->
+   <com.google.android.material.tabs.TabLayout
+       android:id="@+id/tabs"
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/standard_height"
+       android:layout_marginBottom="@dimen/grid_2x"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:tabIndicator="@null">
+
+      <com.google.android.material.tabs.TabItem
+          android:id="@+id/tabHome"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:icon="@drawable/selector_home" />
+
+      <com.google.android.material.tabs.TabItem
+          android:id="@+id/tabSearch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:icon="@drawable/selector_search" />
+
+      <com.google.android.material.tabs.TabItem
+          android:id="@+id/tabMyActivity"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:icon="@drawable/selector_myactivity" />
+   </com.google.android.material.tabs.TabLayout>
+
+   <!-- Pages (tab-menu) -->
+   <androidx.viewpager.widget.ViewPager
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       app:layout_behavior="@string/appbar_scrolling_view_behavior"
+       app:layout_constraintBottom_toTopOf="@+id/tabs"
+       app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+   <!-- Floating Action Button (FAB) -->
+   <com.google.android.material.floatingactionbutton.FloatingActionButton
+       android:id="@+id/fab"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_margin="@dimen/grid_3x"
+       app:layout_constraintBottom_toTopOf="@+id/tabs"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:srcCompat="@drawable/feather" />
+
+   <!-- Progress Bar -->
+   <LinearLayout
+       android:id="@+id/homeProgressLayout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@color/transparent_grey"
+       android:elevation="5dp"
+       android:gravity="center"
+       android:orientation="vertical"
+       android:visibility="gone">
+
+      <ProgressBar
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+   </LinearLayout>
 
    <!--<Button
        android:id="@+id/buttonlogout"
