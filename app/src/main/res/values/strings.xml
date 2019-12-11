@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TwitterClone</string>
+   <string name="app_name">TwitterClone</string>
    <string name="hint_email">Email</string>
    <string name="hint_password">Password</string>
    <string name="button_login">Login</string>
