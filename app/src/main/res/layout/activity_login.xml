@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+   <androidx.core.widget.NestedScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:fillViewport="true">
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+         <ImageView
+             android:id="@+id/imageView"
+             android:contentDescription="@string/app_name"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_centerHorizontal="true"
+             android:layout_margin="@dimen/grid_2x"
+             android:src="@drawable/title" />
+
+         <com.google.android.material.textfield.TextInputLayout
+             android:id="@+id/emailTIL"
+             android:layout_width="@dimen/standard_width"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/imageView"
+             android:layout_centerHorizontal="true"
+             android:layout_margin="@dimen/grid_2x">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress" />
+         </com.google.android.material.textfield.TextInputLayout>
+
+         <com.google.android.material.textfield.TextInputLayout
+             android:id="@+id/passwordlTIL"
+             android:layout_width="@dimen/standard_width"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/emailTIL"
+             android:layout_centerHorizontal="true"
+             android:layout_margin="@dimen/grid_2x">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordlET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword" />
+         </com.google.android.material.textfield.TextInputLayout>
+
+         <Button
+             android:id="@+id/button_login"
+             style="@style/standardButton"
+             android:layout_width="@dimen/standard_width"
+             android:layout_height="@dimen/standard_height"
+             android:layout_below="@+id/passwordlTIL"
+             android:layout_centerHorizontal="true"
+             android:layout_margin="@dimen/grid_2x"
+             android:onClick="onLogin"
+             android:text="@string/button_login" />
+
+         <TextView
+             android:id="@+id/signupTV"
+             style="@style/linkText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/button_login"
+             android:layout_centerHorizontal="true"
+             android:layout_margin="@dimen/grid_2x"
+             android:clickable="true"
+             android:onClick="goToSignup"
+             android:text="@string/text_signup" />
+
+
+      </RelativeLayout>
+   </androidx.core.widget.NestedScrollView>
+
+   <LinearLayout
+       android:id="@+id/loginProgressLayout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@color/transparent_grey"
+       android:gravity="center"
+       android:orientation="vertical"
+       android:visibility="gone">
+
+      <ProgressBar
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+
+   </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
