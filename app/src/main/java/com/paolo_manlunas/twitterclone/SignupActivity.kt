@@ -110,6 +110,8 @@ class SignupActivity : AppCompatActivity() {
 
                   /* Add 'user' Object to DB:
                   *  firebaseAuth.uid!! connects the the Auth user and corresponding DB with UID.
+                  *  - Create Collection with DATA_USERS constant
+                  *  - set() will Save 'user' object in Collection.
                   * */
                   firebaseDB.collection(DATA_USERS).document(firebaseAuth.uid!!).set(user)
                }
