@@ -6,7 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".activities.HomeActivity">
 
-   <Button
+   <androidx.cardview.widget.CardView
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:background="@color/design_default_color_primary"
+       android:orientation="horizontal"
+       app:cardElevation="4dp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent">
+
+      <androidx.cardview.widget.CardView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/grid_1x"
+          app:cardCornerRadius="@dimen/standard_corner_radius">
+
+         <ImageView
+             android:id="@+id/logo"
+             android:layout_width="@dimen/standard_image"
+             android:layout_height="@dimen/standard_image"
+             android:scaleType="centerCrop"
+             android:src="@drawable/default_user" />
+
+      </androidx.cardview.widget.CardView>
+
+      <TextView
+          android:id="@+id/titleBar"
+          style="@style/Heading"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_marginStart="@dimen/standard_image"
+          android:paddingStart="@dimen/grid_3x"
+          android:text="Home" />
+
+      <androidx.cardview.widget.CardView
+          android:id="@+id/searchBar"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_gravity="center_vertical"
+          android:layout_marginStart="60dp"
+          app:cardCornerRadius="@dimen/standard_corner_radius">
+
+         <EditText
+             android:id="@+id/search"
+             android:layout_width="@dimen/standard_width"
+             android:layout_height="@dimen/search_input_height"
+             android:background="@color/colorPrimary"
+             android:drawableEnd="@android:drawable/ic_menu_search"
+             android:hint="@string/hint_search"
+             android:imeOptions="actionSearch"
+             android:inputType="text"
+             android:paddingStart="@dimen/grid_2x"
+             android:paddingEnd="@dimen/grid_2x"
+             android:textColor="@color/black"
+             android:textColorHint="@color/dark_grey" />
+      </androidx.cardview.widget.CardView>
+   </androidx.cardview.widget.CardView>
+
+
+   <!--<Button
        android:id="@+id/buttonlogout"
        android:layout_width="0dp"
        android:layout_height="@dimen/standard_height"
@@ -17,6 +77,6 @@
        android:text="Logout"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
+       app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
