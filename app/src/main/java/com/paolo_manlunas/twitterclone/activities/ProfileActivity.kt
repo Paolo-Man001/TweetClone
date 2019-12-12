@@ -45,7 +45,6 @@ class ProfileActivity : AppCompatActivity() {
          startActivityForResult(intent, REQUEST_CODE_PHOTO)
       }
 
-
       populateInfo()
    }
 
@@ -53,17 +52,18 @@ class ProfileActivity : AppCompatActivity() {
    fun populateInfo() {
       profileProgressLayout.visibility = View.VISIBLE    // Progressbar ON
       firebaseDB.collection(DATA_USERS).document(userId!!).get()
-         .addOnSuccessListener {
-            // document-Snapshot(it) cast as UserObject
-            val user = it.toObject(User::class.java)
+         .addOnSuccessListener { documentSnapshot ->
+
+            val user = documentSnapshot.toObject(User::class.java)   // cast as User Obj.
 
             // Update the properties in User for current user:
             usernameET.setText(user?.username, TextView.BufferType.EDITABLE)  // username
             emailET.setText(user?.email, TextView.BufferType.EDITABLE)        // email
             imageUrl = user?.imageUrl                                         // image
-            imageUrl?.let {
+
+            imageUrl?.let { imgUrl ->
                // show image in DB
-               photoIV.loadUrl(user?.imageUrl, R.drawable.logo)
+               photoIV.loadUrl(imgUrl, R.drawable.logo)
             }
 
             profileProgressLayout.visibility = View.GONE    // Progressbar OFF
@@ -120,9 +120,9 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener {
 
                filePath.downloadUrl
-                  .addOnSuccessListener {
+                  .addOnSuccessListener { uri ->
 
-                     val url = it.toString()    // get Uri
+                     val url = uri.toString()    // get Uri
                      // save the Uri in the DB collection>>document>>"imageUrl"
                      firebaseDB.collection(DATA_USERS).document(userId!!)
                         .update(DATA_USER_IMAGE_URL, url)

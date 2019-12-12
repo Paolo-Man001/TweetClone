@@ -90,10 +90,11 @@ class HomeActivity : AppCompatActivity() {
       homeProgressLayout.visibility = View.VISIBLE
 
       firebaseDB.collection(DATA_USERS).document(userId!!).get()
-         .addOnSuccessListener {
-            user = it.toObject(User::class.java)
-            user?.imageUrl?.let {
-               logo.loadUrl(it, R.drawable.logo)
+         .addOnSuccessListener { documentSnapshot ->
+            user = documentSnapshot.toObject(User::class.java)
+
+            user?.imageUrl?.let { imgUrl ->
+               logo.loadUrl(imgUrl, R.drawable.logo)
             }
 
             homeProgressLayout.visibility = View.GONE
