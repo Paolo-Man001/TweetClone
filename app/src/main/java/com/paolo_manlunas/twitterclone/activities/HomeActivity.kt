@@ -21,14 +21,13 @@ class HomeActivity : AppCompatActivity() {
 
    private val firebaseAuth = FirebaseAuth.getInstance()
 
-
    private var sectionPagerAdapter: SectionPagerAdapter? = null
    private val homeFragment = HomeFragment()
    private val searchFragment = SearchFragment()
    private val myActivityFragment = MyActivityFragment()
 
    // check a logged-in user:
-   private val userId = FirebaseAuth.getInstance().currentUser?.uid
+   private var userId = FirebaseAuth.getInstance().currentUser?.uid
 
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +62,6 @@ class HomeActivity : AppCompatActivity() {
       // logo img-click
       logo.setOnClickListener {
          startActivity(ProfileActivity.newIntent(this))
-         finish()
       }
    }
 
@@ -71,18 +69,12 @@ class HomeActivity : AppCompatActivity() {
    // Check for a logged-in user ?: go to LoginActivity
    override fun onResume() {
       super.onResume()
+      // Updates about who the current user is
+      userId = FirebaseAuth.getInstance().currentUser?.uid
       if (userId == null) {
          startActivity(LoginActivity.newIntent(this))
          finish()
       }
-   }
-
-
-   // Logout
-   fun onLogout(view: View) {
-      firebaseAuth.signOut()
-      startActivity(LoginActivity.newIntent(this))
-      finish()
    }
 
 

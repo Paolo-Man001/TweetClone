@@ -77,7 +77,7 @@
              android:layout_height="@dimen/standard_height"
              android:layout_below="@id/applyButton"
              android:layout_marginBottom="@dimen/grid_2x"
-             android:onClick="onLogout"
+             android:onClick="onSignOut"
              android:text="@string/button_logout" />
 
       </RelativeLayout>

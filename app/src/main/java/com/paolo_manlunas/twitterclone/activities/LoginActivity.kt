@@ -102,13 +102,10 @@ class LoginActivity : AppCompatActivity() {
       }
    }
 
+
    // Go-to-Signup
    fun goToSignup(view: View) {
-      startActivity(
-         SignupActivity.newIntent(
-            this
-         )
-      )
+      startActivity(SignupActivity.newIntent(this))
       finish()
    }
 
