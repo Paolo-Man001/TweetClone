@@ -74,7 +74,35 @@ class TweetActivity : AppCompatActivity() {
    }
 
    private fun getHashtags(source: String): ArrayList<String> {
-      return arrayListOf()
+      val hashtags = arrayListOf<String>()
+      var text = source   // assign source into variable
+
+      while (text.contains("#")) {
+         var hashtag = ""
+         val hash = text.indexOf("#")
+         text = text.substring(hash + 1)
+
+         val firstSpace = text.indexOf(" ")
+         val firstHash = text.indexOf("#")
+
+         // Filter source of '#' and 'space'  -- Can use RegEx
+         if (firstSpace == -1 && firstHash == -1) {
+            hashtag = text.substring(0)
+         } else if (firstSpace != -1 && firstSpace < firstHash) {
+            hashtag = text.substring(0, firstSpace)
+            text = text.substring(firstSpace + 1)
+         } else {
+            hashtag = text.substring(0, firstHash)
+            text = text.substring(firstHash)
+         }
+
+         // Add filtered source into List
+         if (!hashtag.isNullOrEmpty()) {
+            hashtags.add(hashtag)
+         }
+      }
+
+      return hashtags
    }
 
    //--- Intent
