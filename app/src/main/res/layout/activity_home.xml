@@ -131,17 +131,4 @@
           android:layout_height="wrap_content" />
    </LinearLayout>
 
-   <!--<Button
-       android:id="@+id/buttonlogout"
-       android:layout_width="0dp"
-       android:layout_height="@dimen/standard_height"
-       android:layout_marginStart="55dp"
-       android:layout_marginTop="141dp"
-       android:layout_marginEnd="55dp"
-       android:onClick="onLogout"
-       android:text="Logout"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

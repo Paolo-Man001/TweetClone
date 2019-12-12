@@ -4,6 +4,7 @@
    <string name="hint_password">Password</string>
    <string name="hint_user_name">Username</string>
    <string name="hint_search">Search</string>
+   <string name="hint_tweet_text">What\'s Up?</string>
 
    <string name="button_login">Login</string>
    <string name="button_signup">Signup</string>
@@ -16,4 +17,5 @@
    <string name="hello_blank_fragment">Hello blank fragment</string>
 
    <string name="desc_user_logo">user logo</string>
+   <string name="desc_post_an_image">Post an Image</string>
 </resources>

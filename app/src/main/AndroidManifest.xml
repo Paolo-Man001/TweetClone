@@ -10,10 +10,15 @@
        android:roundIcon="@drawable/logo"
        android:supportsRtl="true"
        android:theme="@style/AppTheme">
-      <activity android:name=".activities.ProfileActivity"
+      <activity android:name=".activities.TweetActivity"
           android:screenOrientation="portrait"
           android:theme="@style/AppTheme.NoActionBar"
-          android:windowSoftInputMode="adjustResize"></activity>
+          android:windowSoftInputMode="adjustResize" />
+      <activity
+          android:name=".activities.ProfileActivity"
+          android:screenOrientation="portrait"
+          android:theme="@style/AppTheme.NoActionBar"
+          android:windowSoftInputMode="adjustResize" />
       <activity
           android:name=".activities.SignupActivity"
           android:screenOrientation="portrait"

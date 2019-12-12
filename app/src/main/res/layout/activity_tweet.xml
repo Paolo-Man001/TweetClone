@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.TweetActivity">
+
+   <!-- Add Tweet -->
+   <EditText
+       android:id="@+id/tweetText"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       android:layout_marginTop="8dp"
+       android:hint="@string/hint_tweet_text"
+       android:inputType="text"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <!-- Add Image -->
+   <ImageView
+       android:id="@+id/tweetImage"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="8dp"
+       android:contentDescription="@string/desc_post_an_image"
+       android:minHeight="200dp"
+       android:onClick="addImage"
+       android:scaleType="center"
+       app:layout_constraintTop_toBottomOf="@id/tweetText" />
+
+   <!-- Fab-Photo -->
+   <com.google.android.material.floatingactionbutton.FloatingActionButton
+       android:id="@+id/fabPhoto"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_margin="@dimen/grid_3x"
+       android:onClick="addImage"
+       app:layout_constraintBottom_toTopOf="@id/fabSend"
+       app:layout_constraintRight_toRightOf="parent"
+       app:srcCompat="@drawable/camera" />
+
+   <!-- Fab-Send -->
+   <com.google.android.material.floatingactionbutton.FloatingActionButton
+       android:id="@+id/fabSend"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_margin="@dimen/grid_3x"
+       android:onClick="postTweet"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       app:srcCompat="@drawable/send" />
+
+   <!-- Progress Bar -->
+   <LinearLayout
+       android:id="@+id/tweetProgressLayout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@color/transparent_grey"
+       android:elevation="5dp"
+       android:gravity="center"
+       android:orientation="vertical"
+       android:visibility="gone">
+
+      <ProgressBar
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+   </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
