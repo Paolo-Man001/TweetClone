@@ -115,19 +115,20 @@ class ProfileActivity : AppCompatActivity() {
          Toast.makeText(this, "Uploading image...", Toast.LENGTH_SHORT).show()
          profileProgressLayout.visibility = View.VISIBLE
 
+         // Create 'ProfileImages' folder in STORAGE
          val filePath = firebaseStorage.child(DATA_IMAGES).child(userId!!)
          filePath.putFile(imageUri)
             .addOnSuccessListener {
 
+               // Get url from Storage >> update DB
                filePath.downloadUrl
                   .addOnSuccessListener { uri ->
-
                      val url = uri.toString()    // get Uri
-                     // save the Uri in the DB collection>>document>>"imageUrl"
+
+                     // save the Uri in the DB collection >> document >> "imageUrl"
                      firebaseDB.collection(DATA_USERS).document(userId!!)
                         .update(DATA_USER_IMAGE_URL, url)
                         .addOnSuccessListener {
-
                            imageUrl = url
                            photoIV.loadUrl(imageUrl, R.drawable.logo)
                         }
@@ -141,7 +142,6 @@ class ProfileActivity : AppCompatActivity() {
             .addOnFailureListener {
                onUploadFailure()
             }
-
       }
    }
 

@@ -1,7 +1,9 @@
 package com.paolo_manlunas.twitterclone.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,15 +11,14 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.paolo_manlunas.twitterclone.R
-import com.paolo_manlunas.twitterclone.util.DATA_TWEETS
-import com.paolo_manlunas.twitterclone.util.Tweet
+import com.paolo_manlunas.twitterclone.util.*
 import kotlinx.android.synthetic.main.activity_tweet.*
 
 class TweetActivity : AppCompatActivity() {
 
    private val firebaseDB = FirebaseFirestore.getInstance()
-   private val firebseStorage = FirebaseStorage.getInstance()
-   private val imageUrl: String? = null
+   private val firebaseStorage = FirebaseStorage.getInstance().reference
+   private var imageUrl: String? = null
    private var userId: String? = null
    private var userName: String? = null
 
@@ -39,11 +40,63 @@ class TweetActivity : AppCompatActivity() {
    }
 
 
-   // AddImage
+   // Add Tweet Image
    fun addImage(view: View) {
+      /** The Intent refers to the intent action for picking the Photo from the device's storage */
+      val intent = Intent(Intent.ACTION_PICK)
+      intent.type = "image/*"
+      // when starting for activityResult, override onActivityResult()
+      startActivityForResult(intent, REQUEST_CODE_PHOTO)
    }
 
-   // Send Tweet
+   /** Process onActivityResult */
+   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+      super.onActivityResult(requestCode, resultCode, data)
+      if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PHOTO) {
+         storeImage(data?.data)
+      }
+   }
+
+   private fun storeImage(imageUri: Uri?) {
+      imageUri?.let {
+         tweetProgressLayout.visibility = View.VISIBLE
+
+         // Create 'TweetImages' folder in STORAGE
+         val filePath = firebaseStorage.child(DATA_TWEET_IMAGES).child(userId!!)
+
+         // Save into Storage
+         filePath.putFile(imageUri)
+            .addOnSuccessListener {
+
+               // Get url from Storage >> DB
+               filePath.downloadUrl
+                  .addOnSuccessListener { uri ->
+
+                     imageUrl = uri.toString()
+                     tweetImage.loadUrl(imageUrl, R.drawable.logo)
+
+                     tweetProgressLayout.visibility = View.GONE
+                  }
+                  .addOnFailureListener {
+                     onTweetImageFail()
+                  }
+            }
+            .addOnFailureListener {
+               onTweetImageFail()
+            }
+      }
+   }
+
+   private fun onTweetImageFail() {
+      Toast.makeText(this, "Image tweet failed. Try again..", Toast.LENGTH_SHORT)
+         .show()
+
+      tweetProgressLayout.visibility = View.GONE
+   }
+
+
+   // -----------------------------------------//
+   // Post a Tweet
    fun postTweet(view: View) {
       tweetProgressLayout.visibility = View.VISIBLE
 
@@ -104,6 +157,7 @@ class TweetActivity : AppCompatActivity() {
 
       return hashtags
    }
+
 
    //--- Intent
    companion object {
