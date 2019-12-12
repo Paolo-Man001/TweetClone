@@ -11,23 +11,29 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.paolo_manlunas.twitterclone.R
 import com.paolo_manlunas.twitterclone.fragments.HomeFragment
 import com.paolo_manlunas.twitterclone.fragments.MyActivityFragment
 import com.paolo_manlunas.twitterclone.fragments.SearchFragment
+import com.paolo_manlunas.twitterclone.util.DATA_USERS
+import com.paolo_manlunas.twitterclone.util.User
+import com.paolo_manlunas.twitterclone.util.loadUrl
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
    private val firebaseAuth = FirebaseAuth.getInstance()
+   private val firebaseDB = FirebaseFirestore.getInstance()
+   private var user: User? = null
+   // check a logged-in user:
+   private var userId = FirebaseAuth.getInstance().currentUser?.uid
 
    private var sectionPagerAdapter: SectionPagerAdapter? = null
    private val homeFragment = HomeFragment()
    private val searchFragment = SearchFragment()
    private val myActivityFragment = MyActivityFragment()
-
-   // check a logged-in user:
-   private var userId = FirebaseAuth.getInstance().currentUser?.uid
 
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +81,27 @@ class HomeActivity : AppCompatActivity() {
          startActivity(LoginActivity.newIntent(this))
          finish()
       }
+
+      // Update Home logoImg
+      populate()
+   }
+
+   private fun populate() {
+      homeProgressLayout.visibility = View.VISIBLE
+
+      firebaseDB.collection(DATA_USERS).document(userId!!).get()
+         .addOnSuccessListener {
+            user = it.toObject(User::class.java)
+            user?.imageUrl?.let {
+               logo.loadUrl(it, R.drawable.logo)
+            }
+
+            homeProgressLayout.visibility = View.GONE
+         }
+         .addOnFailureListener {
+            it.printStackTrace()
+            finish()
+         }
    }
 
 
