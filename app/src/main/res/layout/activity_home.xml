@@ -29,7 +29,8 @@
              android:layout_width="@dimen/standard_image"
              android:layout_height="@dimen/standard_image"
              android:scaleType="centerCrop"
-             android:src="@drawable/default_user" />
+             android:src="@drawable/default_user"
+             android:contentDescription="@string/desc_user_logo" />
 
       </androidx.cardview.widget.CardView>
 

@@ -58,8 +58,13 @@ class HomeActivity : AppCompatActivity() {
 
          override fun onTabSelected(p0: TabLayout.Tab?) {
          }
-
       })
+
+      // logo img-click
+      logo.setOnClickListener {
+         startActivity(ProfileActivity.newIntent(this))
+         finish()
+      }
    }
 
 
