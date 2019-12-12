@@ -75,6 +75,8 @@ class HomeActivity : AppCompatActivity() {
       fab.setOnClickListener {
          startActivity(TweetActivity.newIntent(this, userId, user?.username))
       }
+
+      homeProgressLayout.setOnTouchListener { v, event -> true }
    }
 
 

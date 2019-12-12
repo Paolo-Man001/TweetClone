@@ -54,7 +54,7 @@ class ProfileActivity : AppCompatActivity() {
       firebaseDB.collection(DATA_USERS).document(userId!!).get()
          .addOnSuccessListener { documentSnapshot ->
 
-            val user = documentSnapshot.toObject(User::class.java)   // cast as User Obj.
+            val user = documentSnapshot.toObject(User::class.java)      // cast as User Obj.
 
             // Update the properties in User for current user:
             usernameET.setText(user?.username, TextView.BufferType.EDITABLE)  // username
@@ -76,12 +76,12 @@ class ProfileActivity : AppCompatActivity() {
 
 
    //-- Click Listeners:
-
    /**   onApply() Updates the firebaseDB with the new
     *       data changes set by the user.
     * */
    fun onApply(view: View) {
       profileProgressLayout.visibility = View.VISIBLE    // Progressbar ON
+
       val username = usernameET.text.toString()
       val email = emailET.text.toString()
       val map = HashMap<String, Any>()

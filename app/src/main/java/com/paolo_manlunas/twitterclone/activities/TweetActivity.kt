@@ -6,24 +6,75 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.paolo_manlunas.twitterclone.R
+import com.paolo_manlunas.twitterclone.util.DATA_TWEETS
+import com.paolo_manlunas.twitterclone.util.Tweet
+import kotlinx.android.synthetic.main.activity_tweet.*
 
 class TweetActivity : AppCompatActivity() {
+
+   private val firebaseDB = FirebaseFirestore.getInstance()
+   private val firebseStorage = FirebaseStorage.getInstance()
+   private val imageUrl: String? = null
+   private var userId: String? = null
+   private var userName: String? = null
+
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.activity_tweet)
+
+
+      if (intent.hasExtra(PARAM_USER_ID) && intent.hasExtra(PARAM_USER_NAME)) {
+         userId = intent.getStringExtra((PARAM_USER_ID))
+         userName = intent.getStringExtra((PARAM_USER_NAME))
+      } else {
+         Toast.makeText(this, "Error creating tweet", Toast.LENGTH_SHORT).show()
+         finish()
+      }
+
+      tweetProgressLayout.setOnTouchListener { v, event -> true }
    }
 
 
    // AddImage
    fun addImage(view: View) {
-      Toast.makeText(this,"AddImage CLICKED!",Toast.LENGTH_SHORT).show()
    }
 
    // Send Tweet
    fun postTweet(view: View) {
-      Toast.makeText(this,"PostTweet CLICKED!",Toast.LENGTH_SHORT).show()
+      tweetProgressLayout.visibility = View.VISIBLE
+
+      // GET: data
+      val text = tweetText.text.toString()
+      val hashtags = getHashtags(text)
+
+      // POST: to update DB
+      val tweetId = firebaseDB.collection(DATA_TWEETS).document() // Create Tweets Collection
+      val tweet = Tweet(      // Tweet model
+         tweetId.id,
+         arrayListOf(userId!!),
+         userName,
+         text,
+         imageUrl,
+         System.currentTimeMillis(),
+         hashtags,
+         arrayListOf()
+      )
+
+      tweetId.set(tweet)
+         .addOnCompleteListener { finish() }
+         .addOnFailureListener {
+            it.printStackTrace()
+            tweetProgressLayout.visibility = View.GONE
+            Toast.makeText(this, "Failed to post tweet", Toast.LENGTH_SHORT).show()
+         }
+   }
+
+   private fun getHashtags(source: String): ArrayList<String> {
+      return arrayListOf()
    }
 
    //--- Intent
@@ -33,8 +84,8 @@ class TweetActivity : AppCompatActivity() {
 
       fun newIntent(context: Context, userId: String?, userName: String?): Intent {
          val intent = Intent(context, TweetActivity::class.java)
-         intent.putExtra(PARAM_USER_ID,userId)
-         intent.putExtra(PARAM_USER_NAME,userName)
+         intent.putExtra(PARAM_USER_ID, userId)
+         intent.putExtra(PARAM_USER_NAME, userName)
 
          return intent
       }
