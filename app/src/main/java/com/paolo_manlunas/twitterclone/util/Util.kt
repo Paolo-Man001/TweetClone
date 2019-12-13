@@ -6,6 +6,8 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.paolo_manlunas.twitterclone.R
+import java.text.DateFormat
+import java.util.*
 
 
 /** KOTLIN Extension Class / Class Extension */
@@ -27,4 +29,12 @@ fun progressDrawable(context: Context): CircularProgressDrawable {
       centerRadius = 30f
       start()
    }
+}
+
+fun getDate(s: Long?): String {
+   s?.let {
+      val df=DateFormat.getDateInstance()
+      return df.format(Date(it))
+   }
+   return "Unknown"
 }
