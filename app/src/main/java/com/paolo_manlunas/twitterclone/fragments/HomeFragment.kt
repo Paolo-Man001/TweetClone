@@ -14,6 +14,7 @@ import com.paolo_manlunas.twitterclone.R
  */
 class HomeFragment : TwitterFragment() {
 
+
    override fun onCreateView(
       inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?
@@ -22,5 +23,9 @@ class HomeFragment : TwitterFragment() {
       return inflater.inflate(R.layout.fragment_home, container, false)
    }
 
+
+   /** FROM: TwitterFragment abstract method */
+   override fun updateList() {
+   }
 
 }

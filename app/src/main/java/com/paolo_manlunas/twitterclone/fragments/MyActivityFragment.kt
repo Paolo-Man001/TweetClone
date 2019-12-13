@@ -14,6 +14,7 @@ import com.paolo_manlunas.twitterclone.R
  */
 class MyActivityFragment : TwitterFragment() {
 
+
    override fun onCreateView(
       inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?
@@ -23,4 +24,7 @@ class MyActivityFragment : TwitterFragment() {
    }
 
 
+   /** FROM: TwitterFragment abstract method */
+   override fun updateList() {
+   }
 }

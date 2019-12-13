@@ -1,24 +1,16 @@
 package com.paolo_manlunas.twitterclone.fragments
 
 
-import android.opengl.Visibility
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-
 import com.paolo_manlunas.twitterclone.R
 import com.paolo_manlunas.twitterclone.adapters.TweetListAdapter
-import com.paolo_manlunas.twitterclone.listeners.TweetListener
-import com.paolo_manlunas.twitterclone.util.DATA_TWEETS
-import com.paolo_manlunas.twitterclone.util.DATA_TWEET_HASHTAGS
-import com.paolo_manlunas.twitterclone.util.Tweet
-import com.paolo_manlunas.twitterclone.util.User
+import com.paolo_manlunas.twitterclone.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 /**
@@ -27,11 +19,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 class SearchFragment : TwitterFragment() {
 
    private var currentHashtag = ""
-   private var tweetsAdapter: TweetListAdapter? = null
-   private var currentUser: User? = null
-   private val firebaseDB = FirebaseFirestore.getInstance()
-   private val userId = FirebaseAuth.getInstance().currentUser?.uid
-   private val listener: TweetListener? = null
+   private var hashtagFollowed = false
 
    override fun onCreateView(
       inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +35,7 @@ class SearchFragment : TwitterFragment() {
       super.onViewCreated(view, savedInstanceState)
 
       tweetsAdapter = TweetListAdapter(userId!!, arrayListOf())
-      tweetsAdapter?.setListener(listener)
+      tweetsAdapter?.setListener(listenerI)
 
       // instantiate tweetList from xml
       tweetList.apply {
@@ -57,21 +45,54 @@ class SearchFragment : TwitterFragment() {
          addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
       }
 
-      // Add Function for SwipeRefreshLayout
+      // ADD FUNCTION for SwipeRefreshLayout
       swipeRefresh.setOnRefreshListener {
-         swipeRefresh.isRefreshing=false
+         swipeRefresh.isRefreshing = false
          updateList()
       }
+
+      // FOLLOW Hashtag:
+      followHashtag.setOnClickListener {
+         followHashtag.isClickable = false
+         // Get list of hashtags followed by currentUser
+         val followed = currentUser?.followHash
+         if (hashtagFollowed) {
+            followed?.remove(currentHashtag) // REMOVE from list
+         } else {
+            followed?.add(currentHashtag)    // ADD the currentHashtag into 'followed'
+         }
+         // update DB with the new 'followed' hashtag list
+         firebaseDB.collection(DATA_USERS).document(userId).update(DATA_USER_HASTAGS, followed)
+            .addOnSuccessListener {
+               callback?.onUserUpdated()        // call onUserUpdated() in HomeActivity
+               followHashtag.isClickable = true
+            }
+            .addOnFailureListener {
+               it.printStackTrace()
+               followHashtag.isClickable = true
+            }
+      }
    }
+
 
    fun newHashtag(term: String) {
       currentHashtag = term
       followHashtag.visibility = View.VISIBLE
-
       updateList()
    }
 
-   private fun updateList() {
+   private fun updateFollowDrawable() {
+      hashtagFollowed = currentUser?.followHash?.contains(currentHashtag) == true
+      context?.let {
+         if (hashtagFollowed) {
+            followHashtag.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.follow))
+         } else {
+            followHashtag.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.follow_inactive))
+         }
+      }
+   }
+
+   override fun updateList() {
       tweetList?.visibility = View.GONE
       firebaseDB.collection(DATA_TWEETS)
          .whereArrayContains(DATA_TWEET_HASHTAGS, currentHashtag).get()
@@ -90,5 +111,7 @@ class SearchFragment : TwitterFragment() {
          .addOnFailureListener {
             it.printStackTrace()
          }
+
+      updateFollowDrawable()     // Update 'follow(star)' icon
    }
 }

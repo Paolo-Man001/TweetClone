@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.paolo_manlunas.twitterclone.R
-import com.paolo_manlunas.twitterclone.listeners.TweetListener
+import com.paolo_manlunas.twitterclone.listeners.ITweetListener
 import com.paolo_manlunas.twitterclone.util.Tweet
 import com.paolo_manlunas.twitterclone.util.getDate
 import com.paolo_manlunas.twitterclone.util.loadUrl
@@ -16,12 +16,12 @@ import com.paolo_manlunas.twitterclone.util.loadUrl
 class TweetListAdapter(val userId: String, val tweets: ArrayList<Tweet>) :
    RecyclerView.Adapter<TweetListAdapter.TweetViewHolder>() {
 
-   private var listener: TweetListener? = null
+   private var listenerI: ITweetListener? = null
 
 
    /** Functions */
-   fun setListener(listener: TweetListener?) {
-      this.listener = listener
+   fun setListener(listenerI: ITweetListener?) {
+      this.listenerI = listenerI
    }
 
    fun updateTweets(newTweets: List<Tweet>) {
@@ -39,7 +39,7 @@ class TweetListAdapter(val userId: String, val tweets: ArrayList<Tweet>) :
    override fun getItemCount() = tweets.size
 
    override fun onBindViewHolder(holder: TweetViewHolder, position: Int) {
-      holder.bind(userId, tweets[position], listener)
+      holder.bind(userId, tweets[position], listenerI)
    }
 
 
@@ -56,7 +56,7 @@ class TweetListAdapter(val userId: String, val tweets: ArrayList<Tweet>) :
       private val retweet = v.findViewById<ImageView>(R.id.tweetRetweet)
       private val retweetCount = v.findViewById<TextView>(R.id.tweetRetweetCount)
 
-      fun bind(userId: String, tweet: Tweet, listener: TweetListener?) {
+      fun bind(userId: String, tweet: Tweet, listenerI: ITweetListener?) {
          username.text = tweet.username
          text.text = tweet.text
 
@@ -74,9 +74,9 @@ class TweetListAdapter(val userId: String, val tweets: ArrayList<Tweet>) :
             tweet.userIds?.size?.minus(1).toString() // -1 person who originally tweeted
 
          // call listener when user Clicks on:
-         layout.setOnClickListener { listener?.onLayoutClick(tweet) }
-         like.setOnClickListener { listener?.onLike(tweet) }
-         retweet.setOnClickListener { listener?.onRetweet(tweet) }
+         layout.setOnClickListener { listenerI?.onLayoutClick(tweet) }
+         like.setOnClickListener { listenerI?.onLike(tweet) }
+         retweet.setOnClickListener { listenerI?.onRetweet(tweet) }
 
          // check if user already 'like' this tweet or not:
          if (tweet.likes?.contains(userId) == true) {

@@ -19,12 +19,14 @@ import com.paolo_manlunas.twitterclone.R
 import com.paolo_manlunas.twitterclone.fragments.HomeFragment
 import com.paolo_manlunas.twitterclone.fragments.MyActivityFragment
 import com.paolo_manlunas.twitterclone.fragments.SearchFragment
+import com.paolo_manlunas.twitterclone.fragments.TwitterFragment
+import com.paolo_manlunas.twitterclone.listeners.IHomeCallback
 import com.paolo_manlunas.twitterclone.util.DATA_USERS
 import com.paolo_manlunas.twitterclone.util.User
 import com.paolo_manlunas.twitterclone.util.loadUrl
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), IHomeCallback {
 
    private val firebaseAuth = FirebaseAuth.getInstance()
    private val firebaseDB = FirebaseFirestore.getInstance()
@@ -36,6 +38,7 @@ class HomeActivity : AppCompatActivity() {
    private val homeFragment = HomeFragment()
    private val searchFragment = SearchFragment()
    private val myActivityFragment = MyActivityFragment()
+   private var currentFragment: TwitterFragment = homeFragment
 
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,15 +72,18 @@ class HomeActivity : AppCompatActivity() {
                   titleBar.visibility = View.VISIBLE
                   titleBar.text = getString(R.string.titlebar_title_home)
                   searchBar.visibility = View.GONE
+                  currentFragment = homeFragment
                }
                1 -> {
                   titleBar.visibility = View.VISIBLE
                   searchBar.visibility = View.VISIBLE
+                  currentFragment = searchFragment
                }
                2 -> {
                   titleBar.visibility = View.VISIBLE
                   titleBar.text = getString(R.string.titlebar_title_my_activity)
                   searchBar.visibility = View.GONE
+                  currentFragment = myActivityFragment
                }
             }
          }
@@ -122,23 +128,37 @@ class HomeActivity : AppCompatActivity() {
       }
    }
 
+
+   // Member from IHomeCallback Interface
+   override fun onUserUpdated() {
+      populate()
+   }
+
    private fun populate() {
       homeProgressLayout.visibility = View.VISIBLE
 
       firebaseDB.collection(DATA_USERS).document(userId!!).get()
          .addOnSuccessListener { documentSnapshot ->
-            user = documentSnapshot.toObject(User::class.java)
 
+            homeProgressLayout.visibility = View.GONE
+            user = documentSnapshot.toObject(User::class.java)
             user?.imageUrl?.let { imgUrl ->
                logo.loadUrl(imgUrl, R.drawable.logo)
             }
 
-            homeProgressLayout.visibility = View.GONE
+            updateFragmentUser()
          }
          .addOnFailureListener {
             it.printStackTrace()
             finish()
          }
+   }
+
+   private fun updateFragmentUser() {
+      homeFragment.setUser(user)
+      searchFragment.setUser(user)
+      myActivityFragment.setUser(user)
+      currentFragment.updateList()
    }
 
 
@@ -160,4 +180,5 @@ class HomeActivity : AppCompatActivity() {
    companion object {
       fun newIntent(context: Context) = Intent(context, HomeActivity::class.java)
    }
+
 }
