@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.TableLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -62,7 +63,23 @@ class HomeActivity : AppCompatActivity() {
          override fun onTabUnselected(p0: TabLayout.Tab?) {
          }
 
-         override fun onTabSelected(p0: TabLayout.Tab?) {
+         override fun onTabSelected(tab: TabLayout.Tab?) {
+            when (tab?.position) {
+               0 -> {
+                  titleBar.visibility=View.VISIBLE
+                  titleBar.text = getString(R.string.titlebar_title_home)
+                  searchBar.visibility=View.GONE
+               }
+               1 -> {
+                  titleBar.visibility=View.VISIBLE
+                  searchBar.visibility=View.VISIBLE
+               }
+               2 -> {
+                  titleBar.visibility=View.VISIBLE
+                  titleBar.text = getString(R.string.titlebar_title_my_activity)
+                  searchBar.visibility=View.GONE
+               }
+            }
          }
       })
 
@@ -77,6 +94,16 @@ class HomeActivity : AppCompatActivity() {
       }
 
       homeProgressLayout.setOnTouchListener { v, event -> true }
+
+
+      // Search-bar Function/listener
+      search.setOnEditorActionListener { v, actionId, event ->
+         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+            searchFragment.newHashtag(v?.text.toString())
+         }
+         return@setOnEditorActionListener true
+      }
+
    }
 
 

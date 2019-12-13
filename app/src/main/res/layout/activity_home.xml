@@ -18,12 +18,14 @@
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toTopOf="parent">
 
+      <!-- VIEW: CardView-->
       <androidx.cardview.widget.CardView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_margin="@dimen/grid_1x"
           app:cardCornerRadius="@dimen/standard_corner_radius">
 
+         <!-- VIEW: Image: Logo -->
          <ImageView
              android:id="@+id/logo"
              android:layout_width="@dimen/standard_image"
@@ -34,6 +36,7 @@
 
       </androidx.cardview.widget.CardView>
 
+      <!-- VIEW: Text: TitleBar-->
       <TextView
           android:id="@+id/titleBar"
           style="@style/Heading"
@@ -42,16 +45,20 @@
           android:layout_gravity="center_vertical"
           android:layout_marginStart="@dimen/standard_image"
           android:paddingStart="@dimen/grid_3x"
-          android:text="Home" />
+          android:paddingEnd="@dimen/grid_3x"
+          android:text="@string/titlebar_title_home" />
 
+      <!-- VIEW: Card: SearchBar -->
       <androidx.cardview.widget.CardView
           android:id="@+id/searchBar"
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
           android:layout_gravity="center_vertical"
+          android:visibility="gone"
           android:layout_marginStart="60dp"
           app:cardCornerRadius="@dimen/standard_corner_radius">
 
+         <!-- VIEW: EditText: Search -->
          <EditText
              android:id="@+id/search"
              android:layout_width="@dimen/standard_width"
@@ -68,7 +75,7 @@
       </androidx.cardview.widget.CardView>
    </androidx.cardview.widget.CardView>
 
-   <!-- Bottom-Tab Menu -->
+   <!-- LAYOUT: Tab: Bottom-Tab Menu -->
    <com.google.android.material.tabs.TabLayout
        android:id="@+id/tabs"
        android:layout_width="match_parent"
@@ -77,18 +84,21 @@
        app:layout_constraintBottom_toBottomOf="parent"
        app:tabIndicator="@null">
 
+      <!-- VIEW: TabItem: Home -->
       <com.google.android.material.tabs.TabItem
           android:id="@+id/tabHome"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:icon="@drawable/selector_home" />
 
+      <!-- VIEW: TabItem: Search -->
       <com.google.android.material.tabs.TabItem
           android:id="@+id/tabSearch"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:icon="@drawable/selector_search" />
 
+      <!-- VIEW: TabItem: My-Activity -->
       <com.google.android.material.tabs.TabItem
           android:id="@+id/tabMyActivity"
           android:layout_width="wrap_content"
@@ -96,7 +106,7 @@
           android:icon="@drawable/selector_myactivity" />
    </com.google.android.material.tabs.TabLayout>
 
-   <!-- Pages (tab-menu) -->
+   <!-- VIEW: Pager -->
    <androidx.viewpager.widget.ViewPager
        android:id="@+id/container"
        android:layout_width="match_parent"
@@ -105,7 +115,7 @@
        app:layout_constraintBottom_toTopOf="@+id/tabs"
        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-   <!-- Floating Action Button (FAB) -->
+   <!-- VIEW: Button: FAB-->
    <com.google.android.material.floatingactionbutton.FloatingActionButton
        android:id="@+id/fab"
        android:layout_width="wrap_content"
@@ -115,7 +125,7 @@
        app:layout_constraintEnd_toEndOf="parent"
        app:srcCompat="@drawable/feather" />
 
-   <!-- Progress Bar -->
+   <!-- Progress Bar: Home -->
    <LinearLayout
        android:id="@+id/homeProgressLayout"
        android:layout_width="match_parent"

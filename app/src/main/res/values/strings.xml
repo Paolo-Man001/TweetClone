@@ -18,4 +18,7 @@
 
    <string name="desc_user_logo">user logo</string>
    <string name="desc_post_an_image">Post an Image</string>
+
+   <string name="titlebar_title_home">Home</string>
+   <string name="titlebar_title_my_activity">My Activity</string>
 </resources>
