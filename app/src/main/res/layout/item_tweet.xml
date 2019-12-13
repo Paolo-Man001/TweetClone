@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+   <!-- VIEW: Text: Username -->
+   <TextView
+       android:id="@+id/tweetUsername"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="8dp"
+       android:text="Username"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <!-- VIEW: Text: Tweet -->
+   <TextView
+       android:id="@+id/tweetText"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="8dp"
+       android:text="Tweet Text"
+       android:textSize="@dimen/standard_text_size"
+       app:layout_constraintTop_toBottomOf="@id/tweetUsername" />
+
+   <!-- VIEW: Image -->
+   <ImageView
+       android:id="@+id/tweetImage"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="8dp"
+       android:adjustViewBounds="true"
+       android:scaleType="centerInside"
+       app:layout_constraintTop_toBottomOf="@id/tweetText" />
+
+   <!-- VIEW: Text: Tweet-Date -->
+   <TextView
+       android:id="@+id/tweetDate"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="8dp"
+       android:text="Date"
+       app:layout_constraintTop_toBottomOf="@id/tweetImage" />
+
+
+   <!-- LAYOUT: Linear: Buttons -->
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="8dp"
+       android:orientation="horizontal"
+       app:layout_constraintTop_toBottomOf="@id/tweetDate">
+
+      <!-- LAYOUT: Linear : Tweet-Likes -->
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:orientation="horizontal">
+
+         <!-- VIEW: Image -->
+         <ImageView
+             android:id="@+id/tweetLike"
+             android:layout_width="@dimen/small_image"
+             android:layout_height="@dimen/small_image"
+             android:background="@null"
+             android:padding="@dimen/grid_1x"
+             android:scaleType="centerInside"
+             android:src="@drawable/like_inactive" />
+
+         <!-- VIEW: Text: Tweet-like-Count-->
+         <TextView
+             android:id="@+id/tweetLikeCount"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:gravity="center_vertical"
+             android:paddingStart="@dimen/grid_2x"
+             android:paddingEnd="@dimen/grid_2x"
+             android:text="0"
+             android:textSize="@dimen/standard_text_size" />
+
+      </LinearLayout>
+
+      <!--LAYOUT: Linear -->
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:orientation="horizontal">
+
+         <!-- VIEW: Image -->
+         <ImageView
+             android:id="@+id/tweetRetweet"
+             android:layout_width="@dimen/small_image"
+             android:layout_height="@dimen/small_image"
+             android:background="@null"
+             android:padding="@dimen/grid_1x"
+             android:scaleType="centerInside"
+             android:src="@drawable/retweet_inactive" />
+
+         <!-- VIEW: Text: Tweet-like-Count-->
+         <TextView
+             android:id="@+id/tweetRetweetCount"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:gravity="center_vertical"
+             android:paddingStart="@dimen/grid_2x"
+             android:paddingEnd="@dimen/grid_2x"
+             android:text="0"
+             android:textSize="@dimen/standard_text_size" />
+
+      </LinearLayout>
+
+   </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
