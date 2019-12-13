@@ -66,18 +66,18 @@ class HomeActivity : AppCompatActivity() {
          override fun onTabSelected(tab: TabLayout.Tab?) {
             when (tab?.position) {
                0 -> {
-                  titleBar.visibility=View.VISIBLE
+                  titleBar.visibility = View.VISIBLE
                   titleBar.text = getString(R.string.titlebar_title_home)
-                  searchBar.visibility=View.GONE
+                  searchBar.visibility = View.GONE
                }
                1 -> {
-                  titleBar.visibility=View.VISIBLE
-                  searchBar.visibility=View.VISIBLE
+                  titleBar.visibility = View.VISIBLE
+                  searchBar.visibility = View.VISIBLE
                }
                2 -> {
-                  titleBar.visibility=View.VISIBLE
+                  titleBar.visibility = View.VISIBLE
                   titleBar.text = getString(R.string.titlebar_title_my_activity)
-                  searchBar.visibility=View.GONE
+                  searchBar.visibility = View.GONE
                }
             }
          }
@@ -115,10 +115,11 @@ class HomeActivity : AppCompatActivity() {
       if (userId == null) {
          startActivity(LoginActivity.newIntent(this))
          finish()
-      }
+      } else {
 
-      // Update Home logoImg
-      populate()
+         // Update Home logoImg
+         populate()
+      }
    }
 
    private fun populate() {
