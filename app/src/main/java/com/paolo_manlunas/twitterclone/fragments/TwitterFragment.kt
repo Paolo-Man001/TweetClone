@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.paolo_manlunas.twitterclone.adapters.TweetListAdapter
 import com.paolo_manlunas.twitterclone.listeners.IHomeCallback
 import com.paolo_manlunas.twitterclone.listeners.ITweetListener
+import com.paolo_manlunas.twitterclone.listeners.TwitterListenerImpl
 import com.paolo_manlunas.twitterclone.util.User
 import java.lang.RuntimeException
 
@@ -16,7 +17,7 @@ abstract class TwitterFragment : Fragment() {
    protected var currentUser: User? = null
    protected val firebaseDB = FirebaseFirestore.getInstance()
    protected val userId = FirebaseAuth.getInstance().currentUser?.uid
-   protected var listenerI: ITweetListener? = null
+   protected var listenerI: TwitterListenerImpl? = null
    protected var callback: IHomeCallback? = null
 
 
@@ -32,6 +33,7 @@ abstract class TwitterFragment : Fragment() {
 
    fun setUser(user: User?) {
       this.currentUser = user
+      listenerI?.user = user
    }
 
    abstract fun updateList()

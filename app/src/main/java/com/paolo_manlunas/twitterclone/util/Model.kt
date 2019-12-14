@@ -10,10 +10,10 @@ data class User(
 
 data class Tweet(
    val tweetId: String? = "",
-   val userIds: ArrayList<String>? = arrayListOf(),   // contains the users that Tweeted this Tweet
+   val userIds: ArrayList<String>? = arrayListOf(),   // contains the users that Tweeted this Tweet.
    val username: String? = "",
    val text: String? = "",
-   val imageUrl: String?="",
+   val imageUrl: String? = "",
    val timestamp: Long? = 0,
    val hashtags: ArrayList<String>? = arrayListOf(),  // contains the hashTags this Tweet have
    val likes: ArrayList<String>? = arrayListOf()      // contains userIds who Liked this Tweet

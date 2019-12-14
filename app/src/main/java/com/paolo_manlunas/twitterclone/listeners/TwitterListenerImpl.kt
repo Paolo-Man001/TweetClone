@@ -1,5 +1,6 @@
 package com.paolo_manlunas.twitterclone.listeners
 
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +17,64 @@ class TwitterListenerImpl(
 
 
    override fun onLayoutClick(tweet: Tweet?) {
+      tweet?.let {
+         val owner = tweet.userIds?.get(0)  // userIds[0] is Always the owner's
+         if (owner != userId) {
+            if (user?.followUsers?.contains(owner) == true) {
+               AlertDialog.Builder(tweetList.context)
+                  .setTitle("Unfollow ${tweet.username}?")
+                  .setPositiveButton("Yes") { dialog, which ->
+                     tweetList.isClickable = false
+
+                     var followedUsers = user?.followUsers
+                     if (followedUsers == null) {
+                        followedUsers= arrayListOf()
+                     }
+
+                     followedUsers?.remove(owner)
+
+                     firebaseDB.collection(DATA_USERS).document(userId!!)
+                        .update(DATA_USER_FOLLOW, followedUsers)
+                        .addOnSuccessListener {
+                           tweetList.isClickable = true
+                           callback?.onUserUpdated()
+                        }
+                        .addOnFailureListener {
+                           tweetList.isClickable = true
+                        }
+                  }
+                  .setNegativeButton("Cancel") { dialog, which -> }
+                  .show()
+            } else {
+               AlertDialog.Builder(tweetList.context)
+                  .setTitle("Follow ${tweet.username}?")
+                  .setPositiveButton("Yes") { dialog, which ->
+                     tweetList.isClickable = false
+
+                     var followedUsers = user?.followUsers
+                     if (followedUsers == null) {
+                        followedUsers= arrayListOf()
+                     }
+
+                     owner?.let{
+                        followedUsers?.add(owner)
+
+                        firebaseDB.collection(DATA_USERS).document(userId!!)
+                           .update(DATA_USER_FOLLOW, followedUsers)
+                           .addOnSuccessListener {
+                              tweetList.isClickable = true
+                              callback?.onUserUpdated()
+                           }
+                           .addOnFailureListener {
+                              tweetList.isClickable = true
+                           }
+                     }
+                  }
+                  .setNegativeButton("Cancel") { dialog, which -> }
+                  .show()
+            }
+         }
+      }
    }
 
    // When Like-Icon is CLICKED!
