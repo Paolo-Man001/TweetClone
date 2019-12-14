@@ -3,10 +3,7 @@ package com.paolo_manlunas.twitterclone.listeners
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.paolo_manlunas.twitterclone.util.DATA_TWEETS
-import com.paolo_manlunas.twitterclone.util.DATA_TWEET_LIKES
-import com.paolo_manlunas.twitterclone.util.Tweet
-import com.paolo_manlunas.twitterclone.util.User
+import com.paolo_manlunas.twitterclone.util.*
 
 class TwitterListenerImpl(
    val tweetList: RecyclerView,
@@ -21,10 +18,12 @@ class TwitterListenerImpl(
    override fun onLayoutClick(tweet: Tweet?) {
    }
 
+   // When Like-Icon is CLICKED!
    override fun onLike(tweet: Tweet?) {
       tweet?.let {
          tweetList.isClickable = false
-         val likes = tweet.likes
+
+         val likes = tweet.likes // contains userIds who liked this Tweet
          if (tweet.likes?.contains(userId)!!) {
             likes?.remove(userId)
          } else {
@@ -44,6 +43,28 @@ class TwitterListenerImpl(
       }
    }
 
+   // When ReTweet-Icon is CLICKED!
    override fun onRetweet(tweet: Tweet?) {
+      tweet?.let {
+         tweetList.isClickable = false
+
+         val retweets = tweet.userIds // contains userIds who tweeted this Tweet
+         if (retweets?.contains(userId)!!) {
+            retweets.remove(userId)
+         } else {
+            retweets.add(userId!!)
+         }
+
+         // UPDATE Db
+         firebaseDB.collection(DATA_TWEETS).document(tweet.tweetId!!)
+            .update(DATA_TWEET_USER_IDS, retweets)
+            .addOnSuccessListener {
+               tweetList.isClickable = true
+               callback?.onRefresh()
+            }
+            .addOnFailureListener {
+               tweetList.isClickable = true
+            }
+      }
    }
 }

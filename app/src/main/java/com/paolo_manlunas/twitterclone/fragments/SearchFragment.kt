@@ -40,7 +40,7 @@ class SearchFragment : TwitterFragment() {
       tweetsAdapter = TweetListAdapter(userId!!, arrayListOf())
       tweetsAdapter?.setListener(listenerI)
 
-      // instantiate tweetList from xml
+      // instantiate tweetList from xml(RecyclerView)
       tweetList.apply {
          layoutManager = LinearLayoutManager(context)
          adapter = tweetsAdapter
