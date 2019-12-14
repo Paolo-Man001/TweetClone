@@ -10,7 +10,7 @@ import java.text.DateFormat
 import java.util.*
 
 
-/** KOTLIN Extension Class / Class Extension */
+/** KOTLIN Extension Class/Function Extension */
 fun ImageView.loadUrl(url: String?, errorDrawable: Int = R.drawable.empty) {
    context?.let {
       val options = RequestOptions()

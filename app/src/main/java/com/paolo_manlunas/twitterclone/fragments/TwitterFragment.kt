@@ -16,7 +16,7 @@ abstract class TwitterFragment : Fragment() {
    protected var currentUser: User? = null
    protected val firebaseDB = FirebaseFirestore.getInstance()
    protected val userId = FirebaseAuth.getInstance().currentUser?.uid
-   protected val listenerI: ITweetListener? = null
+   protected var listenerI: ITweetListener? = null
    protected var callback: IHomeCallback? = null
 
 

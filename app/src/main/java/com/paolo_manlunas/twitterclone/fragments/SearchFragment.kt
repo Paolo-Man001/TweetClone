@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paolo_manlunas.twitterclone.R
 import com.paolo_manlunas.twitterclone.adapters.TweetListAdapter
+import com.paolo_manlunas.twitterclone.listeners.TwitterListenerImpl
 import com.paolo_manlunas.twitterclone.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -33,6 +34,8 @@ class SearchFragment : TwitterFragment() {
    /** Instantiate the List when this Fragment is Created: */
    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
       super.onViewCreated(view, savedInstanceState)
+
+      listenerI = TwitterListenerImpl(tweetList, currentUser, callback)
 
       tweetsAdapter = TweetListAdapter(userId!!, arrayListOf())
       tweetsAdapter?.setListener(listenerI)
@@ -87,7 +90,12 @@ class SearchFragment : TwitterFragment() {
          if (hashtagFollowed) {
             followHashtag.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.follow))
          } else {
-            followHashtag.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.follow_inactive))
+            followHashtag.setImageDrawable(
+               ContextCompat.getDrawable(
+                  it,
+                  R.drawable.follow_inactive
+               )
+            )
          }
       }
    }

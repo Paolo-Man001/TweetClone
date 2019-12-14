@@ -134,6 +134,10 @@ class HomeActivity : AppCompatActivity(), IHomeCallback {
       populate()
    }
 
+   override fun onRefresh() {
+      currentFragment.updateList()
+   }
+
    private fun populate() {
       homeProgressLayout.visibility = View.VISIBLE
 
