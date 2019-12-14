@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tweetLayout"
+    android:layout_marginBottom="@dimen/grid_2x"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,6 +12,8 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_marginTop="8dp"
+       android:paddingStart="@dimen/grid_1x"
+       android:paddingEnd="@dimen/grid_1x"
        android:text="Username"
        app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,6 +23,8 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_marginTop="8dp"
+       android:paddingStart="@dimen/grid_1x"
+       android:paddingEnd="@dimen/grid_1x"
        android:text="Tweet Text"
        android:textSize="@dimen/standard_text_size"
        app:layout_constraintTop_toBottomOf="@id/tweetUsername" />
@@ -40,6 +45,8 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_marginTop="8dp"
+       android:paddingStart="@dimen/grid_1x"
+       android:paddingEnd="@dimen/grid_1x"
        android:text="Date"
        app:layout_constraintTop_toBottomOf="@id/tweetImage" />
 
